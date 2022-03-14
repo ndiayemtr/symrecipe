@@ -42,7 +42,7 @@ class IngredientController extends AbstractController
 
             $this->addFlash('success', 'Ingredient entrgistré !');
 
-            //return $this->redirectToRoute('app_ingredient');
+            return $this->redirectToRoute('app_ingredient');
             
         }else {
             # code...
