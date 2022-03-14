@@ -2,7 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Ingredient;
+use App\Form\IngredientType;
 use App\Repository\IngredientRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,6 +25,29 @@ class IngredientController extends AbstractController
 
         return $this->render('pages/ingredient/index.html.twig', [
             'ingredients' => $ingredients
+        ]);
+    }
+
+    #[Route('/new_ingredient', name: 'new_ingredient', methods: ['GET', 'POST'])]
+    public function newIngredient(Request $request, EntityManagerInterface $manager): Response {
+        $ingredient = new Ingredient();
+        $form = $this->createForm(IngredientType::class, $ingredient);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $ingredient = $form->getData();
+            $manager->persist($ingredient);
+            $manager->flush();
+
+            return $this->redirectToRoute('app_ingredient');
+            
+        }else {
+            # code...
+        }
+
+        return $this->render('pages/ingredient/new.html.twig', [
+            'form'  => $form->createView()
         ]);
     }
 } 
