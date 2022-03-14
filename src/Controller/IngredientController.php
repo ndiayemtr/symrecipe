@@ -77,4 +77,18 @@ class IngredientController extends AbstractController
             'form'  => $form->createView()
         ]);
     }
+
+    #[Route('/ingredient/delete_ingredient/{id}', name: 'delete_ingredient', methods: ['GET', 'POST'])]
+    public function deleteIngredient(Request $request,  EntityManagerInterface $manager, Ingredient $ingredient): Response {
+        
+        if (!$ingredient) {
+            $this->addFlash('success', 'Ingredient introuvable !');
+        }
+        $manager->remove($ingredient);
+        $manager->flush();
+
+        $this->addFlash('success', 'Ingredient supprimé !');
+        return $this->redirectToRoute('app_ingredient');
+        
+    }
 } 

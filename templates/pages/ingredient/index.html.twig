@@ -25,6 +25,8 @@ il y a {{ ingredients.getTotalItemCount }} ingredients
       <th scope="col">Nom</th>
       <th scope="col">Prix</th>
       <th scope="col">Date de creation</th>
+    <th scope="col">Edition</th>
+  <th scope="col">Suppression</th>
     </tr>
   </thead>
   <tbody>
@@ -37,6 +39,12 @@ il y a {{ ingredients.getTotalItemCount }} ingredients
       <td>{{ ingredient.name }}</td>
       <td>{{ ingredient.price }}</td>
       <td>{{ ingredient.creatdAt | date('d/m/Y') }}</td>
+      <td>
+        <a href="{{ path('edit_ingredient', { id: ingredient.id }) }} " class='btn btn-info'>Modification </a> 
+      </td>
+      <td>
+      <a href="{{ path('delete_ingredient', { id: ingredient.id }) }} " class='btn btn-warning'>Suppression </a> 
+    </td>
       
     </tr>
 {% endfor %}
