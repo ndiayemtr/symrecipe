@@ -40,7 +40,9 @@ class IngredientController extends AbstractController
             $manager->persist($ingredient);
             $manager->flush();
 
-            return $this->redirectToRoute('app_ingredient');
+            $this->addFlash('success', 'Ingredient entrgistré !');
+
+            //return $this->redirectToRoute('app_ingredient');
             
         }else {
             # code...
