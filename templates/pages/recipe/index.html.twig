@@ -1,0 +1,81 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}SymRecipe - mes recettes{% endblock %}
+
+{% block body %}
+<div class='container mt-4'>
+{% for message in app.flashes('success') %}
+<div class='alert alert-success'>
+    {{ message }}
+</div>
+{% endfor %}
+
+<h4>Mes recettes</h4>
+
+
+<a href="{{ path('new_ingredient') }}" class="btn btn-primary"> 
+  créer un ingredient
+ </a>  <br> 
+
+<table class="table table-hover">
+il y a {{ recettes.getTotalItemCount }} recettes 
+  <thead>
+    <tr>
+      <th scope="col">Nom</th>
+      <th scope="col">Time</th>
+      <th scope="col">Nombre de personnes</th>
+      <th scope="col">Description</th>
+      <th scope="col">Difficulte</th>
+      <th scope="col">Price</th>
+    <th scope="col">isFavorite</th>
+  <th scope="col">Time</th>
+  <th scope="col">createdAt</th>
+  <th scope="col">updatedAt</th>
+    </tr>
+  </thead>
+  <tbody>
+
+    
+   
+    {%  for recette in recettes %}
+    <tr class="table-primary">
+      <td>{{ recette.id }}</td>
+      <td>{{ recette.name }}</td>
+      <td>{{ recette.nbPersonne }}</td>
+      <td> {{ recette.description }}</td>
+        <td>
+          {% if recette.difficulte  is null %}
+            Nom renseigné
+          {% else %}
+           {{ recette.difficulte }}
+           {% endif %}
+        </td>
+      <td>
+        {% if recette.price  is null %}
+          Nom renseigné
+        {% else %}
+         {{ recette.price }}
+         {% endif %}
+      </td>
+      <td>
+        {% if recette.isFavorite  is null %}
+          Nom renseigné
+        {% else %}
+         {{ recette.isFavorite }}
+         {% endif %}
+      </td>
+    <td>
+    
+      <td>{{ recette.createdAt | date('d/m/Y') }}</td>
+      <td>{{ recette.updatedAt | date('d/m/Y') }}</td> 
+    </tr>
+{% endfor %}
+    
+  </tbody>
+</table>
+{# display navigation #}
+<div class="navigation d-flex justify-content-center">
+    {{ knp_pagination_render(recettes) }}
+</div>
+</div>
+{% endblock %}
