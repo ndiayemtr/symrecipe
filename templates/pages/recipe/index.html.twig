@@ -24,13 +24,14 @@ il y a {{ recettes.getTotalItemCount }} recettes
       <th scope="col">Nom</th>
       <th scope="col">Time</th>
       <th scope="col">Nombre de personnes</th>
-      <th scope="col">Description</th>
       <th scope="col">Difficulte</th>
       <th scope="col">Price</th>
     <th scope="col">isFavorite</th>
   <th scope="col">Time</th>
   <th scope="col">createdAt</th>
   <th scope="col">updatedAt</th>
+<th scope="col">Edition</th>
+<th scope="col">Suppression</th>
     </tr>
   </thead>
   <tbody>
@@ -42,7 +43,6 @@ il y a {{ recettes.getTotalItemCount }} recettes
       <td>{{ recette.id }}</td>
       <td>{{ recette.name }}</td>
       <td>{{ recette.nbPersonne }}</td>
-      <td> {{ recette.description }}</td>
         <td>
           {% if recette.difficulte  is null %}
             Nom renseigné
@@ -68,6 +68,12 @@ il y a {{ recettes.getTotalItemCount }} recettes
     
       <td>{{ recette.createdAt | date('d/m/Y') }}</td>
       <td>{{ recette.updatedAt | date('d/m/Y') }}</td> 
+        <td>
+        <a href="{{ path('edit_recipe', { id: recette.id }) }} " class='btn btn-info'>Modification </a> 
+      </td>
+      <td>
+      <a href="{{ path('delete_recipe', { id: recette.id }) }} " class='btn btn-warning'>Suppression </a> 
+    </td>
     </tr>
 {% endfor %}
     
