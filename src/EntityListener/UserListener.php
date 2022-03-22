@@ -22,7 +22,7 @@ class UserListener
         
     }
 
-    public function encodePassword(User $user){
+    /* public function encodePassword(User $user){
         if ($user->getPlainPassword() === null) {
             return;
         }
@@ -30,6 +30,20 @@ class UserListener
             $this->passwordHasher->hashPassword(
                 $user,
                 $user->getPlainPassword()
+            )
+            );
+            z
+         
+    } */
+
+    public function encodePassword(User $user){
+        if (empty($user->getPassword())) {
+            return;
+        }
+        $user->setPassword(
+            $this->passwordHasher->hashPassword(
+                $user,
+                $user->getPassword()
             )
             );
          
