@@ -37,6 +37,8 @@ class IngredientController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $ingredient = $form->getData();
+            $ingredient->setUser($this->getUser());
+            
             $manager->persist($ingredient);
             $manager->flush();
 
