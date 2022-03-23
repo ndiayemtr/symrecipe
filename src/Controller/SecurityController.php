@@ -13,7 +13,7 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class SecurityController extends AbstractController
 {
-    #[Route(path: '/connexion', name: 'app_login', methods: ['GET', 'POST'])]
+    #[Route(path: '/login', name: 'app_login', methods: ['GET', 'POST'])]
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
         // if ($this->getUser()) {
@@ -28,7 +28,7 @@ class SecurityController extends AbstractController
         return $this->render('pages/security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
     }
 
-    #[Route(path: '/logout', name: 'security_logout')]
+    #[Route(path: '/logout', name: 'app_logout')]
     public function logout(): void
     {
         throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
@@ -38,20 +38,16 @@ class SecurityController extends AbstractController
     public function registration(Request $request, EntityManagerInterface $manager): Response
     {
         $user = new User();
-        $user->setRoles(['ROLE_USER']);
         $form = $this->createForm(RegistrationType::class, $user);
 
         $form->handleRequest($request);
 
+
         if ($form->isSubmitted() && $form->isValid()) {
             $user = $form->getData();
-
             $manager->persist($user);
             $manager->flush();
-
-            $this->addFlash('success', 'Votre compté a été créé !');
-
-            return $this->redirectToRoute('app_login');
+            $this->addFlash('success', 'Recette entrgistré !');
         }
         return $this->render('pages/security/registration.html.twig', [
             'form' =>  $form->createView()
