@@ -18,7 +18,7 @@ class RecipeController extends AbstractController
     public function index(Request $request, RecetteRepository $repository,  PaginatorInterface $paginator): Response
     {
         $recettes = $paginator->paginate(
-            $repository->findAll(), /* query NOT result */
+            $repository->findBy(['user' => $this->getUser() ]), /* query NOT result */
             $request->query->getInt('page', 1), /*page number*/
             10 /*limit per page*/
         );
@@ -37,6 +37,7 @@ class RecipeController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $recette = $form->getData();
+            $recette->setUser($this->getUser());
 
             $manager->persist($recette);
             $manager->flush();
