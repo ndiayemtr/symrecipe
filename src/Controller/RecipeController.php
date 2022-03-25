@@ -29,7 +29,7 @@ class RecipeController extends AbstractController
         return $this->render('pages/recipe/index.html.twig', [
             'recettes' => $recettes
         ]);
-    }
+    } 
     
     #[Route('recipe/new_recipe', name: 'new_recipe', methods: ['GET', 'POST'])]
     public function newRecette(Request $request, EntityManagerInterface $manager):Response {
@@ -54,6 +54,14 @@ class RecipeController extends AbstractController
             'form'=> $form->createView()
         ]);
 
+    }
+
+    #[Route('/recipe/show_recipe/{id}', name: 'show_recipe', methods: ['GET'])]
+    public function show(Recette $recette, Request $request): Response{
+
+        return $this->render('pages/recipe/show.html.twig', [
+            'recette'=> $recette
+        ]);
     }
 
     #[Security("is_granted('ROLE_USER') and user === recette.getUser()")]

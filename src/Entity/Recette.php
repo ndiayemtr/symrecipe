@@ -67,6 +67,9 @@ class Recette
     #[ORM\JoinColumn(nullable: false)]
     private $user;
 
+    #[ORM\Column(type: 'boolean')]
+    private $isPublic;
+
     public function __construct()
     {
         $this->ingredients = new ArrayCollection();
@@ -225,6 +228,18 @@ class Recette
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getIsPublic(): ?bool
+    {
+        return $this->isPublic;
+    }
+
+    public function setIsPublic(bool $isPublic): self
+    {
+        $this->isPublic = $isPublic;
 
         return $this;
     }
