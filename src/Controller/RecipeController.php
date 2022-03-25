@@ -10,10 +10,13 @@ use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class RecipeController extends AbstractController
 {
+    #[IsGranted('ROLE_USER')]
     #[Route('/recipe', name: 'app_recipe', methods: ['GET'])]
     public function index(Request $request, RecetteRepository $repository,  PaginatorInterface $paginator): Response
     {
@@ -53,6 +56,7 @@ class RecipeController extends AbstractController
 
     }
 
+    #[Security("is_granted('ROLE_USER') and user === recette.getUser()")]
     #[Route('/recipe/edit_recipe/{id}', name: 'edit_recipe', methods: ['GET', 'POST'])]
     public function editRecette(Request $request,  EntityManagerInterface $manager, Recette $recette): Response {
         //$ingredient = $repository->findOneBy(['id' => $id]);
@@ -78,6 +82,7 @@ class RecipeController extends AbstractController
         ]);
     }
 
+    #[Security("is_granted('ROLE_USER') and user === recette.getUser()")]
     #[Route('/ingredient/delete_recipe/{id}', name: 'delete_recipe', methods: ['GET', 'POST'])]
     public function deleteIngredient(Request $request,  EntityManagerInterface $manager, Recette $recette): Response {
         
