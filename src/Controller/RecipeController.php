@@ -55,7 +55,7 @@ class RecipeController extends AbstractController
         ]);
 
     }
-
+    #[Security("is_granted('ROLE_USER') and recette.getIsPublic() === true")]
     #[Route('/recipe/show_recipe/{id}', name: 'show_recipe', methods: ['GET'])]
     public function show(Recette $recette, Request $request): Response{
 
@@ -63,6 +63,22 @@ class RecipeController extends AbstractController
             'recette'=> $recette
         ]);
     }
+
+    #[Route('/recipe/public', name: 'public_recipe', methods: ['GET'])]
+    public function indexPublic(Request $request, RecetteRepository $repository,  PaginatorInterface $paginator): Response{
+
+        $recettes = $paginator->paginate(
+            $repository->findPublicRecipe(null), /* query NOT result */
+            $request->query->getInt('page', 1), /*page number*/
+            10 /*limit per page*/
+        );
+        
+        return $this->render('pages/recipe/index_public.html.twig', [
+            'recettes'=> $recettes
+        ]);
+    }
+
+
 
     #[Security("is_granted('ROLE_USER') and user === recette.getUser()")]
     #[Route('/recipe/edit_recipe/{id}', name: 'edit_recipe', methods: ['GET', 'POST'])]
