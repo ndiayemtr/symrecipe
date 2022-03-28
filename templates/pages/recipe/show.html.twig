@@ -8,14 +8,16 @@
     
     <h4>{{ recette.name}}</h4>
 
+    <p> La moyenne de cette recette est de {{ recette.average }}</p>
+
     <span class="badge bg-primary">Crée le {{ recette.createdAt| date('d/m/Y')}}</span>
     <div class='mt-4'>
     {% if recette.time %}
         <p>Temps(en minute): {{ recette.time}}</p>
     {% else %}
-    <p>Temps non renseigné</p>
+    <p>Temps non renseigné</p> 
     {% endif %}
-</div>
+</div> 
 <div class='mt-4'>
     {% if recette.nbPersonne %}
         <p>Temps(en minute): {{ recette.nbPersonne}}</p>

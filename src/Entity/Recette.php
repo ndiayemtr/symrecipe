@@ -70,8 +70,11 @@ class Recette
     #[ORM\Column(type: 'boolean')]
     private $isPublic;
 
-    #[ORM\OneToMany(mappedBy: 'recipe', targetEntity: Mark::class)]
+    #[ORM\OneToMany(mappedBy: 'recipe', targetEntity: Mark::class, orphanRemoval: true)]
     private $marks;
+
+    
+    private ?float $average = null;
 
     public function __construct()
     {
@@ -276,5 +279,28 @@ class Recette
         }
 
         return $this;
+    }
+
+    /**
+     * Get the value of average
+     */ 
+    public function getAverage()
+    {
+        $marks = $this->marks;
+
+        if ($marks->toArray() === []) {
+            $this->average = null;
+            return $this->average;
+        }
+
+        $tatol = 0;
+
+        foreach ($marks as $mark ) {
+            $tatol += $mark->getMark();
+        }
+
+        $this->average = $tatol / count($marks);
+
+        return $this->average;
     }
 }

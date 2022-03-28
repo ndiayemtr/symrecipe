@@ -33,7 +33,7 @@ class Mark
     #[ORM\ManyToOne(targetEntity: Recette::class, inversedBy: 'marks')]
     #[ORM\JoinColumn(nullable: false)]
     private $recipe;
-
+    
     #[ORM\Column(type: 'datetime_immutable')]
     private \DateTimeImmutable $createdAt;
 
@@ -94,4 +94,6 @@ class Mark
 
         return $this;
     }
+
+    
 }
